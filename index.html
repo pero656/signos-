@@ -1,71 +1,257 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Descubra Seu Signo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Fonte Google -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
-    /* Reset e estilos globais */
+    /* RESET BÁSICO */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
+    /* ESTILOS GERAIS DO BODY */
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: "Poppins", sans-serif;
       color: #fff;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      background: url("https://source.unsplash.com/1600x900/?galaxy,space,stars") no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+    }
+
+    /* OVERLAY PARA ESCURECER O FUNDO E MELHORAR LEITURA */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6); /* Ajuste a opacidade conforme desejar */
+      z-index: 0;
+    }
+
+    /* CONTAINER PRINCIPAL */
+    .container {
+      position: relative;
+      z-index: 1; /* Fica acima do overlay */
+      width: 100%;
+      max-width: 900px;
+      margin: 40px auto;
       padding: 20px;
-      min-height: 100vh;
-    }
-    header {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(6px);
       text-align: center;
-      margin-bottom: 40px;
     }
+
+    /* CABEÇALHO */
     header h1 {
-      font-size: 3em;
+      font-size: 3rem;
       margin-bottom: 10px;
+      font-weight: 600;
     }
+
+    nav {
+      margin-bottom: 30px;
+    }
+
     nav a {
-      color: #fff;
+      color: #ffd700;
       text-decoration: none;
       font-weight: 600;
-      margin: 0 15px;
+      margin: 0 10px;
       transition: color 0.3s;
     }
+
     nav a:hover {
+      color: #fff;
+    }
+
+    /* SELEÇÃO DE SIGNO */
+    .select-box {
+      margin-top: 20px;
+    }
+    select {
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      background: #fff;
+      color: #333;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+    select:hover {
+      background: #f0f0f0;
+    }
+
+    /* ÁREA DE RESULTADO */
+    .result {
+      margin-top: 30px;
+      min-height: 200px;
+      text-align: center;
+      padding: 20px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .sign-image {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+      transition: transform 0.3s ease;
+    }
+
+    .sign-image:hover {
+      transform: scale(1.05);
+    }
+
+    .sign-name {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .sign-dates {
+      font-size: 1rem;
+      font-weight: 300;
+      margin-bottom: 15px;
       color: #ffd700;
     }
-    .content {
-      max-width: 800px;
-      text-align: center;
+
+    .sign-description {
+      font-size: 1rem;
+      margin-bottom: 15px;
+      line-height: 1.6;
     }
+
+    .horoscope {
+      margin-top: 10px;
+      font-size: 0.95rem;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    /* RODAPÉ */
     footer {
-      margin-top: auto;
-      font-size: 0.8em;
-      color: #ddd;
-      padding: 20px;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      color: #ccc;
+      font-size: 0.8rem;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Descubra Seu Signo</h1>
-    <nav>
-      <a href="index.html">Início</a>
-      <a href="signos.html">Signos</a>
-    </nav>
-  </header>
-  <div class="content">
-    <p>Bem-vindo ao nosso site sobre signos! Aqui você pode explorar a personalidade e conferir o horóscopo do dia para cada signo.</p>
-    <p>Clique em <strong>Signos</strong> no menu para começar!</p>
+  <!-- CONTEÚDO -->
+  <div class="container">
+    <header>
+      <h1>Descubra Seu Signo</h1>
+      <nav>
+        <!-- Exemplos de links âncora; caso queira, podem rolar para seções -->
+        <a href="#home">Início</a>
+        <a href="#signos">Signos</a>
+      </nav>
+    </header>
+
+    <p>Selecione seu signo para ver informações sobre sua personalidade e o horóscopo do dia.</p>
+
+    <div class="select-box">
+      <select id="signoSelect" onchange="mostrarSigno()">
+        <option value="">-- Escolha seu signo --</option>
+        <option value="aries">Áries</option>
+        <option value="taurus">Touro</option>
+        <option value="gemini">Gêmeos</option>
+        <option value="cancer">Câncer</option>
+        <option value="leo">Leão</option>
+        <option value="virgo">Virgem</option>
+        <option value="libra">Libra</option>
+        <option value="scorpio">Escorpião</option>
+        <option value="sagittarius">Sagitário</option>
+        <option value="capricorn">Capricórnio</option>
+        <option value="aquarius">Aquário</option>
+        <option value="pisces">Peixes</option>
+      </select>
+    </div>
+
+    <!-- ÁREA ONDE EXIBIMOS RESULTADO -->
+    <div class="result" id="resultArea">
+      <!-- Será preenchido via JavaScript -->
+    </div>
   </div>
+
   <footer>
     <p>&copy; 2025 - Criado por Pedro Arruda e Paulo Samuel</p>
   </footer>
-</body>
-</html>
+
+  <script>
+    // Objeto com dados de cada signo (nome, datas, imagem, descrição em português e o "nome" em inglês p/ API)
+    const signosData = {
+      aries: {
+        name: "Áries",
+        date: "21 de março a 19 de abril",
+        image: "https://cdn-icons-png.flaticon.com/512/476/476864.png",
+        description:
+          "Áries é conhecido pela coragem, energia e determinação. Gosta de desafios e possui um espírito de liderança. É impulsivo, mas também extremamente leal aos que ama.",
+      },
+      taurus: {
+        name: "Touro",
+        date: "20 de abril a 20 de maio",
+        image: "https://cdn-icons-png.flaticon.com/512/476/476892.png",
+        description:
+          "Touro é confiável, prático e valoriza a segurança. Aprecia o conforto e a estabilidade. É paciente, porém teimoso quando tem certeza de algo.",
+      },
+      gemini: {
+        name: "Gêmeos",
+        date: "21 de maio a 20 de junho",
+        image: "https://cdn-icons-png.flaticon.com/512/476/476889.png",
+        description:
+          "Gêmeos é comunicativo, versátil e curioso. Adora aprender coisas novas e se adaptar a diferentes situações. É sociável, porém pode se entediar facilmente.",
+      },
+      cancer: {
+        name: "Câncer",
+        date: "21 de junho a 22 de julho",
+        image: "https://cdn-icons-png.flaticon.com/512/476/476868.png",
+        description:
+          "Câncer é sensível, protetor e valoriza muito as relações emocionais. Possui grande empatia e é muito apegado à família. Pode se magoar com facilidade.",
+      },
+      leo: {
+        name: "Leão",
+        date: "23 de julho a 22 de agosto",
+        image: "https://cdn-icons-png.flaticon.com/512/476/476881.png",
+        description:
+          "Leão é generoso, confiante e possui uma personalidade marcante. Gosta de estar no centro das atenções e tem um grande coração para ajudar quem ama.",
+      },
+      virgo: {
+        name: "Virgem",
+        date: "23 de agosto a 22 de setembro",
+        image: "https://cdn-icons-png.flaticon.com/512/476/476898.png",
+        description:
+          "Virgem é meticuloso, analítico e prático. É perfeccionista e atencioso aos detalhes, sempre buscando aprimorar tudo ao seu redor.",
+      },
+      libra: {
+        name: "Libra",
+        date: "23 de setembro a 22 de outubro",
+        image: "https://cdn-icons-png.flaticon.com/512/476/476874.png",
+        description:
+          "Libra é equilibrado, sociável e diplomático, buscando sempre a harmonia e a justiça. Tem
