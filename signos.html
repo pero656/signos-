@@ -14,13 +14,30 @@
     }
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      background: url('https://source.unsplash.com/1600x900/?galaxy') no-repeat center center fixed;
+      background-size: cover;
       color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 20px;
       min-height: 100vh;
+      position: relative;
+    }
+    /* Overlay para escurecer o fundo e melhorar a legibilidade */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+    header, .content, footer {
+      position: relative;
+      z-index: 1;
     }
     header {
       text-align: center;
@@ -43,7 +60,7 @@
     .content {
       max-width: 800px;
       text-align: center;
-      background: rgba(0,0,0,0.3);
+      background: rgba(0, 0, 0, 0.6);
       padding: 30px;
       border-radius: 10px;
     }
@@ -67,6 +84,7 @@
       font-size: 0.8em;
       color: #ddd;
       padding: 20px;
+      text-align: center;
     }
   </style>
 </head>
@@ -79,23 +97,24 @@
     </nav>
   </header>
   <div class="content">
-    <p>Selecione seu signo para descobrir um pouco sobre sua personalidade:</p>
+    <p>Selecione seu signo para descobrir um pouco sobre sua personalidade e conferir o horóscopo do dia:</p>
     <select id="signoSelect" onchange="exibirPersonalidade()">
       <option value="">-- Selecione seu signo --</option>
       <option value="aries">Áries</option>
-      <option value="touro">Touro</option>
-      <option value="gemeos">Gêmeos</option>
+      <option value="taurus">Touro</option>
+      <option value="gemini">Gêmeos</option>
       <option value="cancer">Câncer</option>
-      <option value="leao">Leão</option>
-      <option value="virgem">Virgem</option>
+      <option value="leo">Leão</option>
+      <option value="virgo">Virgem</option>
       <option value="libra">Libra</option>
-      <option value="escorpiao">Escorpião</option>
-      <option value="sagitario">Sagitário</option>
-      <option value="capricornio">Capricórnio</option>
-      <option value="aquario">Aquário</option>
-      <option value="peixes">Peixes</option>
+      <option value="scorpio">Escorpião</option>
+      <option value="sagittarius">Sagitário</option>
+      <option value="capricorn">Capricórnio</option>
+      <option value="aquarius">Aquário</option>
+      <option value="pisces">Peixes</option>
     </select>
     <div id="personalidade" class="message"></div>
+    <div id="horoscopo" class="message" style="margin-top:20px;"></div>
   </div>
   <footer>
     <p>&copy; 2025 - Criado por Pedro Arruda e Paulo Samuel</p>
@@ -108,44 +127,63 @@
         case "aries":
           mensagem = "Áries é corajoso, enérgico e determinado, sempre pronto para desafios.";
           break;
-        case "touro":
+        case "taurus":
           mensagem = "Touro é confiável, prático e valoriza a estabilidade e o conforto.";
           break;
-        case "gemeos":
+        case "gemini":
           mensagem = "Gêmeos é comunicativo, versátil e curioso, adora aprender coisas novas.";
           break;
         case "cancer":
           mensagem = "Câncer é sensível, protetor e valoriza muito as relações emocionais.";
           break;
-        case "leao":
+        case "leo":
           mensagem = "Leão é generoso, confiante e possui uma personalidade marcante e vibrante.";
           break;
-        case "virgem":
+        case "virgo":
           mensagem = "Virgem é meticuloso, analítico e prático, sempre atento aos detalhes.";
           break;
         case "libra":
           mensagem = "Libra é equilibrado, sociável e diplomático, buscando sempre a harmonia.";
           break;
-        case "escorpiao":
+        case "scorpio":
           mensagem = "Escorpião é intenso, apaixonado e misterioso, com uma energia magnética.";
           break;
-        case "sagitario":
+        case "sagittarius":
           mensagem = "Sagitário é otimista, aventureiro e adora liberdade e novas experiências.";
           break;
-        case "capricornio":
+        case "capricorn":
           mensagem = "Capricórnio é disciplinado, responsável e ambicioso, com foco em objetivos.";
           break;
-        case "aquario":
+        case "aquarius":
           mensagem = "Aquário é inovador, independente e humanitário, sempre à frente do seu tempo.";
           break;
-        case "peixes":
+        case "pisces":
           mensagem = "Peixes é sensível, artístico e empático, com uma imaginação rica e profunda.";
           break;
         default:
           mensagem = "";
       }
       document.getElementById("personalidade").innerHTML = mensagem;
+      if (signo !== "") {
+          fetchHoroscope(signo);
+      } else {
+          document.getElementById("horoscopo").innerHTML = "";
+      }
+    }
+    
+    function fetchHoroscope(signo) {
+      // A API Aztro retorna o horóscopo do dia para o signo selecionado.
+      var url = "https://aztro.sameerkumar.website/?sign=" + signo + "&day=today";
+      fetch(url, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("horoscopo").innerHTML = "<strong>Horóscopo do dia:</strong> " + data.description;
+        })
+        .catch(error => {
+            document.getElementById("horoscopo").innerHTML = "Erro ao buscar o horóscopo.";
+        });
     }
   </script>
 </body>
 </html>
+
