@@ -19,29 +19,18 @@
       box-sizing: border-box;
     }
 
-    /* CORPO COM FUNDO (TICKETS) E OVERLAY ESCURO */
+    /* CORPO COM DEGRADÊ VIBRANTE */
     body {
       font-family: "Poppins", sans-serif;
       color: #333;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: url("https://images.unsplash.com/photo-1563201517-6fef479d9b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80")
-        no-repeat center center fixed; /* Imagem de tickets */
-      background-size: cover;
+      background: linear-gradient(135deg, #f093fb, #f5576c); 
+      /* degrade pink-lavender -> pink vibrante */
       position: relative;
       overflow-x: hidden;
-    }
-
-    /* Overlay para escurecer o fundo (ajuste a opacidade se quiser mais claro/escuro) */
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 0;
     }
 
     /* ANIMAÇÃO DE FADE-IN */
@@ -56,13 +45,12 @@
       }
     }
 
-    /* CONTAINER CENTRAL (CARD BRANCO) */
+    /* CONTAINER CENTRAL (CARD SEMI-TRANSPARENTE) */
     .container {
       position: relative;
-      z-index: 1; /* Fica acima do overlay */
-      max-width: 700px;
       width: 90%;
-      background: #fff;
+      max-width: 700px;
+      background: rgba(255, 255, 255, 0.9);
       color: #333;
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -136,14 +124,14 @@
       font-size: 1.5rem;
       font-weight: 600;
       margin-bottom: 5px;
-      color: #444;
+      color: #f5576c; /* Combina com o degrade */
     }
 
     .sign-dates {
       font-size: 0.9rem;
       font-weight: 500;
       margin-bottom: 15px;
-      color: #f57c00; /* Laranja */
+      color: #f093fb; /* outra cor do degrade */
     }
 
     .sign-description {
@@ -170,14 +158,14 @@
       border: none;
       outline: none;
       cursor: pointer;
-      background: #f57c00; /* Laranja */
+      background: #ff9800; /* Laranja vibrante */
       color: #fff;
       font-weight: 600;
       transition: background 0.3s, transform 0.3s;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     }
     .bilhete-btn:hover {
-      background: #fb8c00;
+      background: #ffb74d;
       transform: translateY(-2px);
     }
 
