@@ -26,12 +26,12 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background: url("https://source.unsplash.com/1600x900/?galaxy,space,stars") no-repeat center center fixed;
+      background: url("https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80") no-repeat center center fixed;
       background-size: cover;
       position: relative;
     }
 
-    /* OVERLAY PARA ESCURECER O FUNDO E MELHORAR LEITURA */
+    /* OVERLAY PARA ESCURECER O FUNDO (ajuste a opacidade se quiser mais claro/escuro) */
     body::before {
       content: "";
       position: absolute;
@@ -39,7 +39,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.6); /* Ajuste a opacidade conforme desejar */
+      background: rgba(0, 0, 0, 0.3); /* 0.3 para overlay leve */
       z-index: 0;
     }
 
@@ -65,20 +65,10 @@
       font-weight: 600;
     }
 
-    nav {
-      margin-bottom: 30px;
-    }
-
-    nav a {
-      color: #ffd700;
-      text-decoration: none;
-      font-weight: 600;
-      margin: 0 10px;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: #fff;
+    .description {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      line-height: 1.4;
     }
 
     /* SELEÇÃO DE SIGNO */
@@ -104,11 +94,12 @@
     /* ÁREA DE RESULTADO */
     .result {
       margin-top: 30px;
-      min-height: 200px;
+      min-height: 250px;
       text-align: center;
       padding: 20px;
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
     }
 
     .sign-image {
@@ -117,11 +108,11 @@
       object-fit: contain;
       margin-bottom: 15px;
       filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, filter 0.3s ease;
     }
-
     .sign-image:hover {
-      transform: scale(1.05);
+      transform: scale(1.1);
+      filter: brightness(1.2) drop-shadow(0 0 10px rgba(0,0,0,0.5));
     }
 
     .sign-name {
@@ -160,21 +151,39 @@
       color: #ccc;
       font-size: 0.8rem;
     }
+
+    /* RESPONSIVIDADE BÁSICA */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      .container {
+        margin: 20px;
+        padding: 15px;
+      }
+      .sign-name {
+        font-size: 1.5rem;
+      }
+    }
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      .sign-image {
+        width: 80px;
+        height: 80px;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- CONTEÚDO -->
   <div class="container">
     <header>
       <h1>Descubra Seu Signo</h1>
-      <nav>
-        <!-- Exemplos de links âncora; caso queira, podem rolar para seções -->
-        <a href="#home">Início</a>
-        <a href="#signos">Signos</a>
-      </nav>
     </header>
-
-    <p>Selecione seu signo para ver informações sobre sua personalidade e o horóscopo do dia.</p>
+    <p class="description">
+      Selecione seu signo para ver informações sobre sua personalidade e o horóscopo do dia.
+    </p>
 
     <div class="select-box">
       <select id="signoSelect" onchange="mostrarSigno()">
@@ -194,64 +203,275 @@
       </select>
     </div>
 
-    <!-- ÁREA ONDE EXIBIMOS RESULTADO -->
-    <div class="result" id="resultArea">
-      <!-- Será preenchido via JavaScript -->
-    </div>
+    <div class="result" id="resultArea"></div>
   </div>
 
   <footer>
-    <p>&copy; 2025 - Criado por Pedro Arruda e Paulo Samuel</p>
+    &copy; 2025 - Criado por Pedro Arruda e Paulo Samuel
   </footer>
 
   <script>
-    // Objeto com dados de cada signo (nome, datas, imagem, descrição em português e o "nome" em inglês p/ API)
+    // Objeto com dados de cada signo (nome, datas, imagem, descrição em português)
     const signosData = {
       aries: {
         name: "Áries",
         date: "21 de março a 19 de abril",
         image: "https://cdn-icons-png.flaticon.com/512/476/476864.png",
-        description:
-          "Áries é conhecido pela coragem, energia e determinação. Gosta de desafios e possui um espírito de liderança. É impulsivo, mas também extremamente leal aos que ama.",
+        description: `
+          Áries é conhecido pela coragem, energia e determinação. 
+          Gosta de desafios e possui um espírito de liderança. 
+          É impulsivo, mas também extremamente leal aos que ama.
+          <br><br>
+          <strong>Curiosidades:</strong>
+          <ul>
+            <li>Elemento: Fogo</li>
+            <li>Planeta regente: Marte</li>
+            <li>Cor da sorte: Vermelho</li>
+          </ul>
+        `,
       },
       taurus: {
         name: "Touro",
         date: "20 de abril a 20 de maio",
         image: "https://cdn-icons-png.flaticon.com/512/476/476892.png",
-        description:
-          "Touro é confiável, prático e valoriza a segurança. Aprecia o conforto e a estabilidade. É paciente, porém teimoso quando tem certeza de algo.",
+        description: `
+          Touro é confiável, prático e valoriza a segurança. 
+          Aprecia o conforto e a estabilidade. 
+          É paciente, porém teimoso quando tem certeza de algo.
+          <br><br>
+          <strong>Curiosidades:</strong>
+          <ul>
+            <li>Elemento: Terra</li>
+            <li>Planeta regente: Vênus</li>
+            <li>Cor da sorte: Verde</li>
+          </ul>
+        `,
       },
       gemini: {
         name: "Gêmeos",
         date: "21 de maio a 20 de junho",
         image: "https://cdn-icons-png.flaticon.com/512/476/476889.png",
-        description:
-          "Gêmeos é comunicativo, versátil e curioso. Adora aprender coisas novas e se adaptar a diferentes situações. É sociável, porém pode se entediar facilmente.",
+        description: `
+          Gêmeos é comunicativo, versátil e curioso. 
+          Adora aprender coisas novas e se adaptar a diferentes situações. 
+          É sociável, porém pode se entediar facilmente.
+          <br><br>
+          <strong>Curiosidades:</strong>
+          <ul>
+            <li>Elemento: Ar</li>
+            <li>Planeta regente: Mercúrio</li>
+            <li>Cor da sorte: Amarelo</li>
+          </ul>
+        `,
       },
       cancer: {
         name: "Câncer",
         date: "21 de junho a 22 de julho",
         image: "https://cdn-icons-png.flaticon.com/512/476/476868.png",
-        description:
-          "Câncer é sensível, protetor e valoriza muito as relações emocionais. Possui grande empatia e é muito apegado à família. Pode se magoar com facilidade.",
+        description: `
+          Câncer é sensível, protetor e valoriza muito as relações emocionais. 
+          Possui grande empatia e é muito apegado à família. 
+          Pode se magoar com facilidade.
+          <br><br>
+          <strong>Curiosidades:</strong>
+          <ul>
+            <li>Elemento: Água</li>
+            <li>Planeta regente: Lua</li>
+            <li>Cor da sorte: Branco</li>
+          </ul>
+        `,
       },
       leo: {
         name: "Leão",
         date: "23 de julho a 22 de agosto",
         image: "https://cdn-icons-png.flaticon.com/512/476/476881.png",
-        description:
-          "Leão é generoso, confiante e possui uma personalidade marcante. Gosta de estar no centro das atenções e tem um grande coração para ajudar quem ama.",
+        description: `
+          Leão é generoso, confiante e possui uma personalidade marcante. 
+          Gosta de estar no centro das atenções e tem um grande coração 
+          para ajudar quem ama.
+          <br><br>
+          <strong>Curiosidades:</strong>
+          <ul>
+            <li>Elemento: Fogo</li>
+            <li>Planeta regente: Sol</li>
+            <li>Cor da sorte: Dourado</li>
+          </ul>
+        `,
       },
       virgo: {
         name: "Virgem",
         date: "23 de agosto a 22 de setembro",
         image: "https://cdn-icons-png.flaticon.com/512/476/476898.png",
-        description:
-          "Virgem é meticuloso, analítico e prático. É perfeccionista e atencioso aos detalhes, sempre buscando aprimorar tudo ao seu redor.",
+        description: `
+          Virgem é meticuloso, analítico e prático. 
+          É perfeccionista e atencioso aos detalhes, 
+          sempre buscando aprimorar tudo ao seu redor.
+          <br><br>
+          <strong>Curiosidades:</strong>
+          <ul>
+            <li>Elemento: Terra</li>
+            <li>Planeta regente: Mercúrio</li>
+            <li>Cor da sorte: Azul</li>
+          </ul>
+        `,
       },
       libra: {
         name: "Libra",
         date: "23 de setembro a 22 de outubro",
         image: "https://cdn-icons-png.flaticon.com/512/476/476874.png",
-        description:
-          "Libra é equilibrado, sociável e diplomático, buscando sempre a harmonia e a justiça. Tem
+        description: `
+          Libra é equilibrado, sociável e diplomático, 
+          buscando sempre a harmonia e a justiça. 
+          Tem facilidade para lidar com pessoas e situações de conflito.
+          <br><br>
+          <strong>Curiosidades:</strong>
+          <ul>
+            <li>Elemento: Ar</li>
+            <li>Planeta regente: Vênus</li>
+            <li>Cor da sorte: Rosa</li>
+          </ul>
+        `,
+      },
+      scorpio: {
+        name: "Escorpião",
+        date: "23 de outubro a 21 de novembro",
+        image: "https://cdn-icons-png.flaticon.com/512/476/476895.png",
+        description: `
+          Escorpião é intenso, apaixonado e misterioso, 
+          com uma energia magnética. É leal, 
+          mas pode ser desconfiado e vingativo se traído.
+          <br><br>
+          <strong>Curiosidades:</strong>
+          <ul>
+            <li>Elemento: Água</li>
+            <li>Planeta regente: Plutão (tradicionalmente Marte)</li>
+            <li>Cor da sorte: Vermelho Escuro</li>
+          </ul>
+        `,
+      },
+      sagittarius: {
+        name: "Sagitário",
+        date: "22 de novembro a 21 de dezembro",
+        image: "https://cdn-icons-png.flaticon.com/512/476/476891.png",
+        description: `
+          Sagitário é otimista, aventureiro e ama liberdade. 
+          Está sempre em busca de novas experiências e conhecimentos, 
+          porém pode ser um pouco impaciente.
+          <br><br>
+          <strong>Curiosidades:</strong>
+          <ul>
+            <li>Elemento: Fogo</li>
+            <li>Planeta regente: Júpiter</li>
+            <li>Cor da sorte: Roxo</li>
+          </ul>
+        `,
+      },
+      capricorn: {
+        name: "Capricórnio",
+        date: "22 de dezembro a 19 de janeiro",
+        image: "https://cdn-icons-png.flaticon.com/512/476/476866.png",
+        description: `
+          Capricórnio é disciplinado, responsável e ambicioso. 
+          Tem foco em objetivos de longo prazo e busca estabilidade, 
+          mas pode ser reservado emocionalmente.
+          <br><br>
+          <strong>Curiosidades:</strong>
+          <ul>
+            <li>Elemento: Terra</li>
+            <li>Planeta regente: Saturno</li>
+            <li>Cor da sorte: Preto</li>
+          </ul>
+        `,
+      },
+      aquarius: {
+        name: "Aquário",
+        date: "20 de janeiro a 18 de fevereiro",
+        image: "https://cdn-icons-png.flaticon.com/512/476/476862.png",
+        description: `
+          Aquário é inovador, independente e humanitário, 
+          sempre à frente do seu tempo. 
+          Gosta de liberdade e de ideias originais, 
+          podendo parecer distante emocionalmente.
+          <br><br>
+          <strong>Curiosidades:</strong>
+          <ul>
+            <li>Elemento: Ar</li>
+            <li>Planeta regente: Urano (tradicionalmente Saturno)</li>
+            <li>Cor da sorte: Azul Claro</li>
+          </ul>
+        `,
+      },
+      pisces: {
+        name: "Peixes",
+        date: "19 de fevereiro a 20 de março",
+        image: "https://cdn-icons-png.flaticon.com/512/476/476894.png",
+        description: `
+          Peixes é sensível, artístico e empático, 
+          com imaginação rica. É muito ligado às emoções 
+          e tem facilidade em se colocar no lugar do outro.
+          <br><br>
+          <strong>Curiosidades:</strong>
+          <ul>
+            <li>Elemento: Água</li>
+            <li>Planeta regente: Netuno (tradicionalmente Júpiter)</li>
+            <li>Cor da sorte: Verde Água</li>
+          </ul>
+        `,
+      },
+    };
+
+    // Quando o usuário selecionar o signo no dropdown
+    function mostrarSigno() {
+      const signo = document.getElementById("signoSelect").value;
+      const resultArea = document.getElementById("resultArea");
+
+      if (!signo) {
+        // Se não selecionou nada, limpa a área
+        resultArea.innerHTML = "";
+        return;
+      }
+
+      // Pega os dados do signo selecionado
+      const data = signosData[signo];
+      if (!data) {
+        resultArea.innerHTML = "Signo não encontrado!";
+        return;
+      }
+
+      // Monta o HTML com a imagem, nome, datas, descrição
+      let html = `
+        <img src="${data.image}" alt="${data.name}" class="sign-image" />
+        <div class="sign-name">${data.name}</div>
+        <div class="sign-dates">${data.date}</div>
+        <div class="sign-description">${data.description}</div>
+      `;
+
+      // Exibe horóscopo do dia usando a API Aztro (nome do signo em inglês)
+      fetchHoroscope(signo).then((horoscopeText) => {
+        if (horoscopeText) {
+          html += `<div class="horoscope"><strong>Horóscopo do dia:</strong> ${horoscopeText}</div>`;
+        } else {
+          html += `<div class="horoscope">Não foi possível obter o horóscopo do dia.</div>`;
+        }
+        resultArea.innerHTML = html;
+      });
+    }
+
+    // Função para buscar o horóscopo do dia na API Aztro
+    async function fetchHoroscope(signoIngles) {
+      const url = `https://aztro.sameerkumar.website/?sign=${signoIngles}&day=today`;
+      try {
+        const response = await fetch(url, { method: "POST" });
+        if (!response.ok) {
+          throw new Error("Erro na resposta da API");
+        }
+        const data = await response.json();
+        return data.description; // Retorna o texto do horóscopo
+      } catch (error) {
+        console.error("Erro ao buscar horóscopo:", error);
+        return null;
+      }
+    }
+  </script>
+</body>
+</html>
